@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage
+import os
 
 PRODUCTS = [
     {"name": "Brezel", "image": "assets/Brezel.png"},
@@ -14,13 +15,14 @@ class HomePage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
-        tk.Label(self, text="🍞 Willkommen beim Bäckerautomaten 🍩", font=("Arial", 18)).pack(pady=20)
+        tk.Label(self, text="🍞 Willkommen beim Bäckerautomaten 🥐", font=("Arial", 18)).pack(pady=20)
         self.products_frame = tk.Frame(self)
         self.products_frame.pack()
 
         self.images = []
         for i, product in enumerate(PRODUCTS):
-            img = PhotoImage(file=product["image"]).subsample(4, 4)
+            image_path = os.path.join(os.path.dirname(__file__), "..", "assets", os.path.basename(product["image"]))
+            img = PhotoImage(file=image_path).subsample(4, 4)
             self.images.append(img)  # sonst wird Bild gelöscht
             btn = tk.Button(
                 self.products_frame,
@@ -48,14 +50,26 @@ class HomePage(tk.Frame):
         self.login_button.pack(side="left", anchor="sw")
 
     def open_login(self):
-        # hier kannst du später eine Login-Seite oder Popup öffnen
         popup = tk.Toplevel(self)
         popup.title("Anmeldung")
         popup.geometry("300x200")
+
         tk.Label(popup, text="Login-Fenster", font=("Arial", 14)).pack(pady=20)
         tk.Label(popup, text="Benutzername:").pack()
-        tk.Entry(popup).pack()
+        username_entry = tk.Entry(popup)
+        username_entry.pack()
         tk.Label(popup, text="Passwort:").pack()
-        tk.Entry(popup, show="*").pack()
-        tk.Button(popup, text="Anmelden", command=popup.destroy).pack(pady=10)
-       
+        password_entry = tk.Entry(popup, show="*")
+        password_entry.pack()
+
+        def login():
+            username = username_entry.get()
+            password = password_entry.get()
+            if username == "admin" and password == "admin":
+                popup.destroy()
+                self.controller.show_frame("AdminPage")
+            else:
+                tk.Label(popup, text="Falsche Anmeldedaten!", fg="red").pack()
+
+        tk.Button(popup, text="Anmelden", command=login).pack(pady=10)
+

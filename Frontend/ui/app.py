@@ -3,6 +3,7 @@ from ui.home_page import HomePage
 from ui.product_page import ProductPage
 from ui.cart_page import CartPage
 from ui.thankyou_page import ThankYouPage
+from ui.admin_page import AdminPage
 
 class App(tk.Tk):
     def __init__(self):
@@ -16,7 +17,7 @@ class App(tk.Tk):
         self.container.pack(fill="both", expand=True)
 
         self.frames = {}
-        for F in (HomePage, ProductPage, CartPage, ThankYouPage):
+        for F in (HomePage, ProductPage, CartPage, ThankYouPage, AdminPage):
             page_name = F.__name__
             frame = F(parent=self.container, controller=self)
             self.frames[page_name] = frame
