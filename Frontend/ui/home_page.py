@@ -1,5 +1,6 @@
 import tkinter as tk
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk  # <--- wichtig für Größenanpassung der Bilder!
+from tkinter import PhotoImage
 
 PRODUCTS = [
     {"name": "Brezel", "image": "assets/Brezel.png"},
@@ -12,40 +13,59 @@ PRODUCTS = [
 
 class HomePage(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#f5f5f5")
+        super().__init__(parent)
         self.controller = controller
+
+        tk.Label(self, text="🍞 Willkommen beim Bäckerautomaten 🍩", font=("Arial", 18)).pack(pady=20)
+
+        self.products_frame = tk.Frame(self)
+        self.products_frame.pack()
+
         self.images = []
 
-        title = tk.Label(self, text="🥐 Willkommen beim Bäckerautomaten 🧁",
-                         font=("Segoe UI", 22, "bold"), bg="#f5f5f5", fg="#333")
-        title.pack(pady=30)
-
-        # Produktgrid
-        self.grid_frame = tk.Frame(self, bg="#f5f5f5")
-        self.grid_frame.pack(expand=True)
-
+        # --- Produkte im Raster anzeigen ---
         for i, product in enumerate(PRODUCTS):
+            # Öffne Bild mit Pillow, skaliere es auf 120x120 Pixel
             img = Image.open(product["image"])
-            img = img.resize((140, 140))
+            img = img.resize((120, 120), Image.Resampling.LANCZOS)  # gleich große Bilder
             tk_img = ImageTk.PhotoImage(img)
             self.images.append(tk_img)
 
-            card = tk.Frame(self.grid_frame, bg="white", relief="raised", bd=2)
-            card.grid(row=i // 3, column=i % 3, padx=25, pady=25, ipadx=10, ipady=10)
+            # Erstelle Button mit Bild
+            btn = tk.Button(
+                self.products_frame,
+                image=tk_img,
+                text=product["name"],
+                compound="top",
+                command=lambda p=product: controller.show_frame("ProductPage", product=p),
+                width=160, height=160,  # sorgt für gleich große Buttons
+                relief="raised",
+                bg="white"
+            )
+            btn.grid(row=i // 3, column=i % 3, padx=20, pady=20)
 
-            lbl_img = tk.Label(card, image=tk_img, bg="white")
-            lbl_img.pack()
-            lbl_name = tk.Label(card, text=product["name"], font=("Segoe UI", 13, "bold"), bg="white")
-            lbl_name.pack(pady=(5, 0))
+        # --- Anmelde-Button unten links ---
+        self.bottom_frame = tk.Frame(self)
+        self.bottom_frame.pack(fill="x", pady=10, padx=20)
 
-            tk.Button(card, text="Ansehen", font=("Segoe UI", 11),
-                      bg="#ffd966", relief="flat", cursor="hand2",
-                      command=lambda p=product: controller.show_frame("ProductPage", product=p)
-                      ).pack(pady=5)
+        self.login_button = tk.Button(
+            self.bottom_frame,
+            text="🔐 Anmelden",
+            font=("Arial", 12),
+            bg="#e0e0e0",
+            relief="raised",
+            command=self.open_login
+        )
+        self.login_button.pack(side="left", anchor="sw")
 
-        # Login unten links
-        bottom = tk.Frame(self, bg="#f5f5f5")
-        bottom.pack(fill="x", pady=15, padx=20)
-        tk.Button(bottom, text="🔐 Admin Login", font=("Segoe UI", 11),
-                  bg="#ddd", relief="flat", cursor="hand2",
-                  command=lambda: controller.show_frame("AdminPage")).pack(side="left")
+    def open_login(self):
+        popup = tk.Toplevel(self)
+        popup.title("Anmeldung")
+        popup.geometry("300x200")
+        tk.Label(popup, text="Login-Fenster", font=("Arial", 14)).pack(pady=20)
+        tk.Label(popup, text="Benutzername:").pack()
+        tk.Entry(popup).pack()
+        tk.Label(popup, text="Passwort:").pack()
+        tk.Entry(popup, show="*").pack()
+        tk.Button(popup, text="Anmelden", command=popup.destroy).pack(pady=10)
+

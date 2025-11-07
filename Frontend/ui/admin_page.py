@@ -1,7 +1,7 @@
 import tkinter as tk
-from tkinter import messagebox
-from PIL import Image, ImageTk
+from tkinter import PhotoImage, messagebox
 
+# In-memory product data
 PRODUCTS = [
     {"id": 1, "name": "Croissant", "price": 2.20, "description": "Zartblättriges Buttercroissant."},
     {"id": 2, "name": "Brezel", "price": 1.50, "description": "Frisch gebackene Brezel."},
@@ -10,78 +10,96 @@ PRODUCTS = [
 
 class AdminPage(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg="#f5f5f5")
+        super().__init__(parent)
         self.controller = controller
 
-        tk.Label(self, text="🛠️ Adminbereich", font=("Segoe UI", 20, "bold"), bg="#f5f5f5").pack(pady=20)
-        self.products_frame = tk.Frame(self, bg="#f5f5f5")
+        tk.Label(self, text="🛠️ Admin Panel", font=("Arial", 18)).pack(pady=20)
+        self.products_frame = tk.Frame(self)
         self.products_frame.pack()
 
         self.images = []
         self.load_products()
 
-        tk.Button(self, text="➕ Neues Produkt", bg="#ffd966", relief="flat",
-                  command=self.add_product_window).pack(pady=10)
-        tk.Button(self, text="⬅️ Zurück", bg="#ddd", relief="flat",
-                  command=lambda: controller.show_frame("HomePage")).pack(pady=5)
+        tk.Button(self, text="Produkt hinzufügen", command=self.add_product_window).pack(pady=10)
 
     def load_products(self):
         for widget in self.products_frame.winfo_children():
             widget.destroy()
+
         self.images.clear()
 
         for i, product in enumerate(PRODUCTS):
-            frame = tk.Frame(self.products_frame, bg="white", relief="solid", bd=1)
-            frame.grid(row=i // 3, column=i % 3, padx=20, pady=20, ipadx=10, ipady=10)
-            img = Image.open(f"assets/{product['name']}.png").resize((120, 120))
-            tk_img = ImageTk.PhotoImage(img)
-            self.images.append(tk_img)
-
-            tk.Label(frame, image=tk_img, bg="white").pack()
-            tk.Label(frame, text=f"{product['name']} ({product['price']}€)", font=("Segoe UI", 11, "bold"), bg="white").pack()
-            tk.Button(frame, text="Bearbeiten", bg="#ddd", relief="flat",
-                      command=lambda p=product: self.edit_product(p)).pack(pady=5)
+            img = PhotoImage(file=f"assets/{product['name']}.png").subsample(4, 4)
+            self.images.append(img)
+            btn = tk.Button(
+                self.products_frame,
+                image=img,
+                text=f"{product['name']}\n{product['price']}€",
+                compound="top",
+                command=lambda p=product: self.edit_product(p),
+                width=180, height=160
+            )
+            btn.grid(row=i//3, column=i%3, padx=20, pady=20)
 
     def edit_product(self, product):
-        win = tk.Toplevel(self)
-        win.title("Produkt bearbeiten")
-        win.geometry("300x300")
-        tk.Label(win, text="Produkt bearbeiten", font=("Segoe UI", 14, "bold")).pack(pady=10)
+        edit_window = tk.Toplevel(self)
+        edit_window.title("Produkt bearbeiten")
 
-        name_var = tk.StringVar(value=product["name"])
-        price_var = tk.DoubleVar(value=product["price"])
-        desc_var = tk.StringVar(value=product["description"])
+        tk.Label(edit_window, text="Name:").pack()
+        name_var = tk.StringVar(value=product['name'])
+        tk.Entry(edit_window, textvariable=name_var).pack()
 
-        for lbl, var in [("Name", name_var), ("Preis", price_var), ("Beschreibung", desc_var)]:
-            tk.Label(win, text=lbl).pack()
-            tk.Entry(win, textvariable=var).pack(pady=2)
+        tk.Label(edit_window, text="Preis:").pack()
+        price_var = tk.DoubleVar(value=product['price'])
+        tk.Entry(edit_window, textvariable=price_var).pack()
 
-        def save():
-            product["name"] = name_var.get()
-            product["price"] = price_var.get()
-            product["description"] = desc_var.get()
+        tk.Label(edit_window, text="Beschreibung:").pack()
+        desc_var = tk.StringVar(value=product['description'])
+        tk.Entry(edit_window, textvariable=desc_var).pack()
+
+        def save_changes():
+            product['name'] = name_var.get()
+            product['price'] = price_var.get()
+            product['description'] = desc_var.get()
             self.load_products()
-            win.destroy()
-            messagebox.showinfo("Gespeichert", "Produkt aktualisiert!")
+            messagebox.showinfo("Erfolg", "Produkt aktualisiert!")
+            edit_window.destroy()
 
-        tk.Button(win, text="Speichern", bg="#ffd966", relief="flat", command=save).pack(pady=10)
+        def delete():
+            PRODUCTS.remove(product)
+            self.load_products()
+            messagebox.showinfo("Erfolg", "Produkt gelöscht!")
+            edit_window.destroy()
+
+        tk.Button(edit_window, text="Speichern", command=save_changes).pack(pady=5)
+        tk.Button(edit_window, text="Löschen", command=delete).pack(pady=5)
 
     def add_product_window(self):
-        win = tk.Toplevel(self)
-        win.title("Produkt hinzufügen")
-        win.geometry("300x300")
-        tk.Label(win, text="Neues Produkt", font=("Segoe UI", 14, "bold")).pack(pady=10)
+        add_window = tk.Toplevel(self)
+        add_window.title("Produkt hinzufügen")
 
-        name_var, price_var, desc_var = tk.StringVar(), tk.DoubleVar(), tk.StringVar()
-        for lbl, var in [("Name", name_var), ("Preis", price_var), ("Beschreibung", desc_var)]:
-            tk.Label(win, text=lbl).pack()
-            tk.Entry(win, textvariable=var).pack(pady=2)
+        tk.Label(add_window, text="Name:").pack()
+        name_var = tk.StringVar()
+        tk.Entry(add_window, textvariable=name_var).pack()
+
+        tk.Label(add_window, text="Preis:").pack()
+        price_var = tk.DoubleVar()
+        tk.Entry(add_window, textvariable=price_var).pack()
+
+        tk.Label(add_window, text="Beschreibung:").pack()
+        desc_var = tk.StringVar()
+        tk.Entry(add_window, textvariable=desc_var).pack()
 
         def add():
-            new = {"id": len(PRODUCTS)+1, "name": name_var.get(), "price": price_var.get(), "description": desc_var.get()}
-            PRODUCTS.append(new)
+            new_product = {
+                "id": len(PRODUCTS) + 1,
+                "name": name_var.get(),
+                "price": price_var.get(),
+                "description": desc_var.get()
+            }
+            PRODUCTS.append(new_product)
             self.load_products()
-            win.destroy()
-            messagebox.showinfo("Hinzugefügt", "Neues Produkt angelegt!")
+            messagebox.showinfo("Erfolg", "Produkt hinzugefügt!")
+            add_window.destroy()
 
-        tk.Button(win, text="Hinzufügen", bg="#ffd966", relief="flat", command=add).pack(pady=10)
+        tk.Button(add_window, text="Hinzufügen", command=add).pack(pady=5)
