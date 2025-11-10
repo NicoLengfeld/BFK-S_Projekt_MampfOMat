@@ -1,0 +1,27 @@
+Was lief gut
+
+Team Absprache lief sehr gut. Wir konnten die Aufgaben gut untereinander verteilen und
+in die verschiedenen Punkte aufteilen.
+
+Den Namen haben wir toll ausgesucht :) .
+Struckturiertes Vorgehen -> Stück für Stück
+
+Wir haben sehr gut gemeinsame Probleme gelöst und uns gegenseitig unterstützt.
+Diese Probleme haben sich gut im Team bearbeiten lassen:
+Probeme die bei Git entstanden sind. 
+Darstellung im Frontend.
+Neuaufsetung des Projekts -> Neustart
+
+
+Was lief weniger gut:
+Umngang mit git
+
+Fazit:
+Wir haben im Teams sehr gut gearbeitet! Wir sind gut vorrangekommen und mussten
+nicht viel mit Fehlern umhantieren.
+Das einzige was wirklich bisschen Faxen gemacht hat war Git.
+Manchmal war unklar was jetzt der Stand ist oder was passieren muss damit man was pushen kann.
+Einmal mussten wir alles neu machen, jedoch haben wir hier nicht viel Zeit liegen lassen
+und sind schnell wieder voran gekommen.
+
+Gute Arbeit und weiter so Team!!!
