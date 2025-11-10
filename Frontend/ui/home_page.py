@@ -6,7 +6,7 @@ from ui.modern_styles import COLORS, FONTS, LAYOUT, create_modern_button, create
 
 class HomePage(tk.Frame):
     def __init__(self, parent, controller):
-        super().__init__(parent, bg=COLORS['background_main'])
+        super().__init__(parent, bg='#ffffff')  # Zurück zu elegantem Weiß
         self.controller = controller
         self.images = []
         self.product_cards = []
@@ -63,7 +63,7 @@ class HomePage(tk.Frame):
     def create_products_section(self):
         """Erstellt den modernen Produktbereich"""
         # Container für Produktkarten
-        products_container = tk.Frame(self, bg=COLORS['background_main'])
+        products_container = tk.Frame(self, bg='#ffffff')  # Elegantes Weiß
         products_container.grid(row=1, column=0, sticky="nsew", padx=LAYOUT['padding_large'])
         products_container.grid_columnconfigure(0, weight=1)
         products_container.grid_rowconfigure(0, weight=1)
@@ -71,7 +71,7 @@ class HomePage(tk.Frame):
         # Scrollbarer Bereich
         canvas = tk.Canvas(
             products_container,
-            bg=COLORS['background_main'],
+            bg='#ffffff',  # Elegantes Weiß
             highlightthickness=0,
             bd=0
         )
@@ -83,7 +83,7 @@ class HomePage(tk.Frame):
             width=12
         )
         
-        self.products_frame = tk.Frame(canvas, bg=COLORS['background_main'])
+        self.products_frame = tk.Frame(canvas, bg='#ffffff')  # Elegantes Weiß
         
         # Scrollbar konfigurieren
         canvas.configure(yscrollcommand=scrollbar.set)
@@ -282,42 +282,44 @@ class HomePage(tk.Frame):
             )
             desc_label.grid(row=3, column=0, pady=(0, LAYOUT['padding_medium']))
         
-        # Auswählen-Button
+        # Auswählen-Button - Premium Gold Style
         select_btn = tk.Button(
             card,
             text="AUSWÄHLEN",
             font=FONTS['button'],
-            bg=COLORS['accent_gold'],
-            fg=COLORS['text_primary'],
-            relief='flat',
-            bd=0,
-            padx=25,
-            pady=12,
+            bg=COLORS['button_gold'],
+            fg=COLORS['primary_dark'],
+            relief='raised',
+            bd=2,
+            padx=30,
+            pady=14,
             cursor='hand2',
+            activebackground=COLORS['button_gold_hover'],
+            activeforeground=COLORS['text_light'],
             command=lambda: self.controller.show_frame("ProductPage", product=product)
         )
         select_btn.grid(row=4, column=0, pady=(LAYOUT['padding_small'], LAYOUT['padding_medium']))
         
-        # Button Hover-Effekt mit Animation - angepasst für Gelb
+        # Button Hover-Effekt mit Animation - Premium Look
         def animate_button_hover(button, target_color, target_text_color):
             """Animiert den Button-Hover-Effekt"""
             def change_color():
                 button.configure(bg=target_color, fg=target_text_color)
-                # Kleiner Scale-Effekt
-                button.configure(relief='raised', bd=2)
+                # Erhöhter 3D-Effekt
+                button.configure(relief='raised', bd=3)
             
             # Verzögert für smooth transition
             button.after(50, change_color)
         
         def on_btn_enter(event):
-            animate_button_hover(select_btn, COLORS['button_primary_hover'], COLORS['text_primary'])  # Dunkleres Gelb
+            animate_button_hover(select_btn, COLORS['button_gold_hover'], COLORS['text_light'])
         
         def on_btn_leave(event):
             select_btn.configure(
-                bg=COLORS['accent_gold'], 
-                fg=COLORS['text_primary'],  # Schwarzer Text auf gelbem Button
-                relief='flat',
-                bd=0
+                bg=COLORS['button_gold'], 
+                fg=COLORS['primary_dark'],
+                relief='raised',
+                bd=2
             )
         
         select_btn.bind("<Enter>", on_btn_enter)
@@ -347,10 +349,10 @@ class HomePage(tk.Frame):
                         glow_intensity = min(4, int(new_intensity / 2))
                         
                         card.configure(
-                            highlightbackground=COLORS['accent_gold'],  # Gelber Rahmen
+                            highlightbackground=COLORS['button_gold'],  # Gold-Rahmen
                             highlightthickness=glow_intensity,
                             relief='raised',
-                            bg=COLORS['background_hover']  # Helles Gelb
+                            bg=COLORS['background_hover']  # Helles Hover
                         )
                     else:
                         # Kein Schatten

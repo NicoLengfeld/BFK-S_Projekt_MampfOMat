@@ -14,11 +14,13 @@ class App(tk.Tk):
         self.setup_ui()
 
     def setup_window(self):
-        """Konfiguriert das Hauptfenster mit modernem Design"""
+        """Konfiguriert das Hauptfenster mit modernem Premium-Design"""
         self.title("BÄCKEREI AUTOMAT")
         self.geometry("1200x800")
         self.minsize(1000, 700)
-        self.configure(bg=COLORS['background_main'])
+        
+        # Eleganter weißer Hintergrund mit dezenten Akzenten
+        self.configure(bg='#f8f9fa')  # Sehr helles, warmes Grau
         
         # Zentriere das Fenster auf dem Bildschirm
         self.center_window()
@@ -41,14 +43,14 @@ class App(tk.Tk):
         # Header mit Premium-Design
         self.create_header()
         
-        # Hauptcontainer für Seiten
+        # Hauptcontainer für Seiten - eleganter weißer Look
         self.container = tk.Frame(
             self, 
-            bg=COLORS['background_main'],
+            bg='#ffffff',  # Reines Weiß
             relief='flat',
             bd=0
         )
-        self.container.grid(row=1, column=0, sticky="nsew", padx=LAYOUT['padding_large'])
+        self.container.grid(row=1, column=0, sticky="nsew", padx=15, pady=15)  # Weniger Padding
         self.container.grid_columnconfigure(0, weight=1)
         self.container.grid_rowconfigure(0, weight=1)
 
