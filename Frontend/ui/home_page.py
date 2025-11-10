@@ -1,23 +1,8 @@
 import tkinter as tk
-<<<<<<< HEAD
 from PIL import Image, ImageTk
 from tkinter import messagebox
 from ui.product_data import get_all_products
 from ui.modern_styles import COLORS, FONTS, LAYOUT, create_modern_button, create_modern_card, apply_hover_effect
-=======
-from PIL import Image, ImageTk  # <--- wichtig!
-from tkinter import PhotoImage
-import os
-
-PRODUCTS = [
-    {"name": "Brezel", "image": "assets/Brezel.png"},
-    {"name": "Croissant", "image": "assets/Croissant.png"},
-    {"name": "Brötchen", "image": "assets/Broetchen.png"},
-    {"name": "Donut", "image": "assets/Kaesebroetchen.png"},
-    {"name": "Muffin", "image": "assets/Muffin.png"},
-    {"name": "Berliner", "image": "assets/Berliner.png"},
-]
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
 
 class HomePage(tk.Frame):
     def __init__(self, parent, controller):
@@ -439,7 +424,6 @@ class HomePage(tk.Frame):
     def open_login(self):
         """Öffnet das moderne Login-Fenster"""
         popup = tk.Toplevel(self)
-<<<<<<< HEAD
         popup.title("Administrator Anmeldung")
         popup.geometry("450x350")
         popup.resizable(False, False)
@@ -574,13 +558,3 @@ class HomePage(tk.Frame):
         """Aktualisiert die Seite"""
         self.load_products()
 
-=======
-        popup.title("Anmeldung")
-        popup.geometry("300x200")
-        tk.Label(popup, text="Login-Fenster", font=("Arial", 14)).pack(pady=20)
-        tk.Label(popup, text="Benutzername:").pack()
-        tk.Entry(popup).pack()
-        tk.Label(popup, text="Passwort:").pack()
-        tk.Entry(popup, show="*").pack()
-        tk.Button(popup, text="Anmelden", command=popup.destroy).pack(pady=10)
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2

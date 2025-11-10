@@ -1,22 +1,10 @@
 import tkinter as tk
-<<<<<<< HEAD
 from tkinter import PhotoImage, messagebox, filedialog
 from ui.product_data import get_all_products, add_product, update_product, delete_product
 from ui.modern_styles import COLORS, FONTS, LAYOUT, create_modern_button, create_modern_card, apply_hover_effect
 from PIL import Image, ImageTk
 import shutil
 import os
-=======
-from tkinter import PhotoImage, messagebox
-import os
-
-# In-memory product data
-PRODUCTS = [
-    {"id": 1, "name": "Croissant", "price": 2.20, "description": "Zartblättriges Buttercroissant."},
-    {"id": 2, "name": "Brezel", "price": 1.50, "description": "Frisch gebackene Brezel."},
-    {"id": 3, "name": "Muffin", "price": 2.50, "description": "Saftiger Muffin."},
-]
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
 
 class AdminPage(tk.Frame):
     """Moderner Administrationsbereich für Produktverwaltung"""
@@ -24,29 +12,12 @@ class AdminPage(tk.Frame):
     def __init__(self, parent, controller):
         super().__init__(parent, bg=COLORS['background_main'])
         self.controller = controller
-<<<<<<< HEAD
-=======
-        self.configure(bg="#f7f7f7")
-
-        tk.Label(
-            self,
-            text="🛠️ Admin Panel",
-            font=("Helvetica", 24, "bold"),
-            bg="#f7f7f7",
-            fg="#333"
-        ).pack(pady=20)
-
-        self.products_frame = tk.Frame(self, bg="#f7f7f7")
-        self.products_frame.pack()
-
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
         self.images = []
         self.product_cards = []
         
         self.setup_ui()
         self.load_products()
 
-<<<<<<< HEAD
     def setup_ui(self):
         """Erstellt die moderne Admin-UI"""
         self.grid_columnconfigure(0, weight=1)
@@ -162,16 +133,6 @@ class AdminPage(tk.Frame):
             command=self.add_product_window
         )
         add_btn.pack(side="left")
-=======
-        tk.Button(
-            self,
-            text="➕ Produkt hinzufügen",
-            font=("Helvetica", 14),
-            bg="#4caf50",
-            fg="#ffffff",
-            command=self.add_product_window
-        ).pack(pady=10)
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
 
     def load_products(self):
         """Lädt alle Produkte mit modernem Card-Design"""
@@ -560,7 +521,6 @@ class AdminPage(tk.Frame):
 
         self.images.clear()
 
-<<<<<<< HEAD
         # Produktliste aus der gemeinsamen Datenbank laden
         products = get_all_products()
         for i, product in enumerate(products):
@@ -590,60 +550,26 @@ class AdminPage(tk.Frame):
                     relief="raised"
                 )
                 btn.grid(row=i//3, column=i%3, padx=20, pady=20)
-=======
-        for i, product in enumerate(PRODUCTS):
-            image_path = os.path.join(os.path.dirname(__file__), "..", "assets", f"{product['name']}.png")
-            img = PhotoImage(file=image_path).subsample(4, 4)
-            self.images.append(img)
-            btn = tk.Button(
-                self.products_frame,
-                image=img,
-                text=f"{product['name']}\n{product['price']}€",
-                compound="top",
-                font=("Helvetica", 12),
-                bg="#ffffff",
-                fg="#333",
-                relief="groove",
-                command=lambda p=product: self.edit_product(p),
-                width=180, height=160
-            )
-            btn.grid(row=i//3, column=i%3, padx=20, pady=20)
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
 
     def edit_product(self, product):
         """Öffnet Dialog zum Bearbeiten eines Produkts"""
         edit_window = tk.Toplevel(self)
         edit_window.title("Produkt bearbeiten")
-<<<<<<< HEAD
         edit_window.geometry("350x350")
         edit_window.resizable(False, False)
 
         # Produktname
         tk.Label(edit_window, text="Produktname:", font=("Arial", 10)).pack(pady=5)
-=======
-        edit_window.geometry("400x300")
-        edit_window.configure(bg="#f7f7f7")
-
-        tk.Label(edit_window, text="Name:", bg="#f7f7f7", fg="#333").pack()
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
         name_var = tk.StringVar(value=product['name'])
         tk.Entry(edit_window, textvariable=name_var, width=25).pack(pady=5)
 
-<<<<<<< HEAD
         # Preis
         tk.Label(edit_window, text="Preis (EUR):", font=("Arial", 10)).pack(pady=5)
-=======
-        tk.Label(edit_window, text="Preis:", bg="#f7f7f7", fg="#333").pack()
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
         price_var = tk.DoubleVar(value=product['price'])
         tk.Entry(edit_window, textvariable=price_var, width=25).pack(pady=5)
 
-<<<<<<< HEAD
         # Beschreibung
         tk.Label(edit_window, text="Beschreibung:", font=("Arial", 10)).pack(pady=5)
-=======
-        tk.Label(edit_window, text="Beschreibung:", bg="#f7f7f7", fg="#333").pack()
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
         desc_var = tk.StringVar(value=product['description'])
         desc_entry = tk.Entry(edit_window, textvariable=desc_var, width=25)
         desc_entry.pack(pady=5)
@@ -676,7 +602,6 @@ class AdminPage(tk.Frame):
                  bg="#2196F3", fg="white", width=15).pack(pady=5)
 
         def save_changes():
-<<<<<<< HEAD
             """Speichert die Änderungen am Produkt"""
             try:
                 update_product(
@@ -710,63 +635,29 @@ class AdminPage(tk.Frame):
                  bg="#f44336", fg="white", width=10).pack(side="left", padx=5)
         tk.Button(button_frame, text="Abbrechen", command=edit_window.destroy,
                  bg="#808080", fg="white", width=10).pack(side="left", padx=5)
-=======
-            product['name'] = name_var.get()
-            product['price'] = price_var.get()
-            product['description'] = desc_var.get()
-            self.load_products()
-            tk.messagebox.showinfo("Erfolg", "Produkt aktualisiert!")
-            edit_window.destroy()
-
-        def delete():
-            PRODUCTS.remove(product)
-            self.load_products()
-            tk.messagebox.showinfo("Erfolg", "Produkt gelöscht!")
-            edit_window.destroy()
-
-        tk.Button(edit_window, text="Speichern", bg="#4caf50", fg="#ffffff", command=save_changes).pack(pady=5)
-        tk.Button(edit_window, text="Löschen", bg="#f44336", fg="#ffffff", command=delete).pack(pady=5)
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
 
     def add_product_window(self):
         """Öffnet Dialog zum Hinzufügen eines neuen Produkts"""
         add_window = tk.Toplevel(self)
-<<<<<<< HEAD
         add_window.title("Neues Produkt hinzufügen")
         add_window.geometry("350x400")
         add_window.resizable(False, False)
 
         # Produktname
         tk.Label(add_window, text="Produktname:", font=("Arial", 10)).pack(pady=5)
-=======
-        add_window.title("Produkt hinzufügen")
-        add_window.geometry("400x300")
-        add_window.configure(bg="#f7f7f7")
-
-        tk.Label(add_window, text="Name:", bg="#f7f7f7", fg="#333").pack()
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
         name_var = tk.StringVar()
         tk.Entry(add_window, textvariable=name_var, width=25).pack(pady=5)
 
-<<<<<<< HEAD
         # Preis
         tk.Label(add_window, text="Preis (EUR):", font=("Arial", 10)).pack(pady=5)
-=======
-        tk.Label(add_window, text="Preis:", bg="#f7f7f7", fg="#333").pack()
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
         price_var = tk.DoubleVar()
         tk.Entry(add_window, textvariable=price_var, width=25).pack(pady=5)
 
-<<<<<<< HEAD
         # Beschreibung
         tk.Label(add_window, text="Beschreibung:", font=("Arial", 10)).pack(pady=5)
-=======
-        tk.Label(add_window, text="Beschreibung:", bg="#f7f7f7", fg="#333").pack()
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
         desc_var = tk.StringVar()
         tk.Entry(add_window, textvariable=desc_var, width=25).pack(pady=5)
 
-<<<<<<< HEAD
         # Bildauswahl
         tk.Label(add_window, text="Produktbild:", font=("Arial", 10)).pack(pady=5)
         image_var = tk.StringVar()
@@ -828,28 +719,3 @@ class AdminPage(tk.Frame):
                  bg="#4CAF50", fg="white", width=12).pack(side="left", padx=5)
         tk.Button(button_frame, text="Abbrechen", command=add_window.destroy,
                  bg="#808080", fg="white", width=12).pack(side="left", padx=5)
-=======
-        tk.Label(add_window, text="Bildname (z. B. Brezel.png):", bg="#f7f7f7", fg="#333").pack()
-        image_var = tk.StringVar()
-        tk.Entry(add_window, textvariable=image_var).pack()
-
-        def add():
-            image_path = os.path.join(os.path.dirname(__file__), "..", "assets", image_var.get())
-            if not os.path.exists(image_path):
-                tk.messagebox.showerror("Fehler", "Bilddatei existiert nicht!")
-                return
-
-            new_product = {
-                "id": len(PRODUCTS) + 1,
-                "name": name_var.get(),
-                "price": price_var.get(),
-                "description": desc_var.get(),
-                "image": image_var.get()
-            }
-            PRODUCTS.append(new_product)
-            self.load_products()
-            tk.messagebox.showinfo("Erfolg", "Produkt hinzugefügt!")
-            add_window.destroy()
-
-        tk.Button(add_window, text="Hinzufügen", bg="#4caf50", fg="#ffffff", command=add).pack(pady=5)
->>>>>>> ce3ae8266c3ac88dff2ba5ab4b5b270ef7f32df2
