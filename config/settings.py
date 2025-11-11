@@ -1,8 +1,10 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+--------------------------------------------
 # TODO: ersetzen für Produktion
+# TODO: Replace sql3 with mariadb
+--------------------------------------------
 SECRET_KEY = "change-me-replace-in-production"
 
 DEBUG = True
@@ -64,14 +66,28 @@ DATABASES = {
     }
 }
 
-# Static files
+#Old Databse settings for MySQL/MariaDB
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "Mampf",
+#         "USER": "mampfuser",        # dein DB‑User (oder 'root')
+#         "PASSWORD": "dein_passwort",
+#         "HOST": "localhost",
+#         "PORT": "3306",
+#         "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'"},
+#     }
+# }
+
+
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-# CORS
+
 CORS_ALLOW_ALL_ORIGINS = True
 
-# DRF / Auth
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
