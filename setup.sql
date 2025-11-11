@@ -1,4 +1,3 @@
-
 CREATE DATABASE IF NOT EXISTS Mampf;
 USE Mampf;
 
@@ -8,6 +7,25 @@ CREATE TABLE IF NOT EXISTS produkte (
     name VARCHAR(100) NOT NULL,
     preis DECIMAL(6,2) NOT NULL,
     beschreibung TEXT
+);
+
+
+CREATE TABLE IF NOT EXISTS bestellungen (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    datum DATETIME DEFAULT CURRENT_TIMESTAMP,
+    kunde_name VARCHAR(100),
+    gesamtpreis DECIMAL(8,2)
+);
+
+
+CREATE TABLE IF NOT EXISTS bestellpositionen (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    bestellung_id INT NOT NULL,
+    produkt_id INT NOT NULL,
+    menge INT DEFAULT 1,
+    einzelpreis DECIMAL(6,2),
+    FOREIGN KEY (bestellung_id) REFERENCES bestellungen(id) ON DELETE CASCADE,
+    FOREIGN KEY (produkt_id) REFERENCES produkte(id)
 );
 
 
