@@ -64,6 +64,9 @@ git clone https://github.com/bxitscoders/BFK-S_Projekt_MampfOMat.git
 cd BFK-S_Projekt_MampfOMat/Frontend
 python main.py
 ```
+Für die DB: 
+XAMPP starten ->  Apache und MySQL starten ->  http://localhost/phpmyadmin/ -> Importieren klicken -> setup.sql Datei wählen - > OK --> Datenbank mampf 
+
 
 Das wars schon.
 
