@@ -66,7 +66,7 @@ if __name__ == "__main__":
         {"produkt_id": 1, "menge": 2},
         {"produkt_id": 3, "menge": 1}
     ]
-    create_bestellung("Kunde", warenkorb)
+    create_bestellung("Test", warenkorb)
 
 cursor.close()
 conn.close()
