@@ -39,3 +39,14 @@ Benötigte Instalationen:
 Python      https://www.python.org/downloads/
 Git         https://git-scm.com/install/windows
 MY SQL      Vorinstaliert auf den Schulrechnern 
+
+Installationen:
+Damit django richtig funktioniert wurde ein requiremnets.txt erstellt. In dieser sind die Dependencies hinterlegt.
+
+Die Dependencies werden aus dem root projekt Verzeichniss installiert.
+
+$ .venv\Scripts\Activate
+
+$ cd <root prject>
+
+$ pip install -r requirements.txt
