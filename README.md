@@ -101,3 +101,16 @@ Mussten wir für die Schule machen:
 ---
 
 Falls Fragen sind oder was nicht läuft, einfach melden. 
+
+
+## Installationen:
+
+Damit django richtig funktioniert wurde ein requiremnets.txt erstellt. In dieser sind die Dependencies hinterlegt.
+
+Die Dependencies werden aus dem root projekt Verzeichniss installiert.
+
+$ .venv\Scripts\Activate
+
+$ cd <root prject>
+
+$ pip install -r requirements.txt
