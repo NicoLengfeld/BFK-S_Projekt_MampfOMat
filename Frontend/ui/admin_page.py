@@ -109,11 +109,22 @@ class AdminPage(tk.Frame):
         self.products_frame.bind("<Configure>", configure_scroll_region)
         canvas.bind("<Configure>", configure_scroll_region)
         
-        # Mausrad-Scrolling
+        # Verbessertes Mausrad-Scrolling (nur aktiv wenn Maus über Canvas)
+        def bind_mousewheel(event):
+            canvas.bind_all("<MouseWheel>", on_mousewheel)
+            
+        def unbind_mousewheel(event):
+            canvas.unbind_all("<MouseWheel>")
+            
         def on_mousewheel(event):
             canvas.yview_scroll(int(-1*(event.delta/120)), "units")
         
-        canvas.bind_all("<MouseWheel>", on_mousewheel)
+        # Events nur bei Hover über Canvas aktivieren
+        canvas.bind('<Enter>', bind_mousewheel)
+        canvas.bind('<Leave>', unbind_mousewheel)
+        
+        # Speichere Canvas-Referenz für andere Methoden
+        self.admin_canvas = canvas
 
     def create_actions_area(self):
         """Erstellt den Aktionsbereich"""
@@ -337,9 +348,62 @@ class AdminPage(tk.Frame):
         )
         header_label.pack(pady=LAYOUT['padding_large'])
         
-        # Formular
-        form_frame = tk.Frame(dialog, bg=COLORS['background_main'])
-        form_frame.pack(fill="both", expand=True, padx=LAYOUT['padding_xlarge'], pady=LAYOUT['padding_large'])
+        # Scrollbares Formular-Frame
+        canvas_frame = tk.Frame(dialog, bg=COLORS['background_main'])
+        canvas_frame.pack(fill="both", expand=True, padx=LAYOUT['padding_xlarge'])
+        
+        # Canvas für Scrolling
+        form_canvas = tk.Canvas(
+            canvas_frame,
+            bg=COLORS['background_main'],
+            highlightthickness=0,
+            bd=0
+        )
+        form_scrollbar = tk.Scrollbar(
+            canvas_frame,
+            orient="vertical",
+            command=form_canvas.yview,
+            width=12
+        )
+        
+        # Scrollbares Formular
+        form_frame = tk.Frame(form_canvas, bg=COLORS['background_main'])
+        
+        # Scrolling konfigurieren
+        form_canvas.configure(yscrollcommand=form_scrollbar.set)
+        
+        # Layout
+        form_canvas.pack(side="left", fill="both", expand=True)
+        form_scrollbar.pack(side="right", fill="y")
+        
+        # Frame im Canvas
+        canvas_window = form_canvas.create_window((0, 0), window=form_frame, anchor="nw")
+        
+        # Responsive Verhalten
+        def configure_form_scroll_region(event=None):
+            form_canvas.configure(scrollregion=form_canvas.bbox("all"))
+            canvas_width = form_canvas.winfo_width()
+            form_canvas.itemconfig(canvas_window, width=canvas_width)
+        
+        form_frame.bind("<Configure>", configure_form_scroll_region)
+        form_canvas.bind("<Configure>", configure_form_scroll_region)
+        
+        # Mousewheel-Scrolling für Dialog
+        def bind_form_mousewheel(event):
+            form_canvas.bind_all("<MouseWheel>", on_form_mousewheel)
+            
+        def unbind_form_mousewheel(event):
+            form_canvas.unbind_all("<MouseWheel>")
+            
+        def on_form_mousewheel(event):
+            form_canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        
+        form_canvas.bind('<Enter>', bind_form_mousewheel)
+        form_canvas.bind('<Leave>', unbind_form_mousewheel)
+        
+        # Formular-Inhalt in scrollbares Frame packen
+        content_frame = tk.Frame(form_frame, bg=COLORS['background_main'])
+        content_frame.pack(fill="both", expand=True, padx=LAYOUT['padding_medium'], pady=LAYOUT['padding_large'])
         
         # Variablen
         name_var = tk.StringVar(value=product['name'] if is_edit else '')
@@ -348,19 +412,19 @@ class AdminPage(tk.Frame):
         image_var = tk.StringVar(value=product.get('image', '') if is_edit else '')
         
         # Produktname
-        self.create_form_field(form_frame, "Produktname", name_var, 'entry')
+        self.create_form_field(content_frame, "Produktname", name_var, 'entry')
         
         # Preis
-        self.create_form_field(form_frame, "Preis (EUR)", price_var, 'entry')
+        self.create_form_field(content_frame, "Preis (EUR)", price_var, 'entry')
         
         # Beschreibung
-        self.create_form_field(form_frame, "Beschreibung", desc_var, 'text')
+        self.create_form_field(content_frame, "Beschreibung", desc_var, 'text')
         
         # Bildauswahl
-        self.create_image_field(form_frame, "Produktbild", image_var, name_var)
+        self.create_image_field(content_frame, "Produktbild", image_var, name_var)
         
         # Button-Bereich
-        button_frame = tk.Frame(form_frame, bg=COLORS['background_main'])
+        button_frame = tk.Frame(content_frame, bg=COLORS['background_main'])
         button_frame.pack(fill="x", pady=LAYOUT['padding_large'])
         
         def save_product():

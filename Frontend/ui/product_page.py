@@ -112,15 +112,12 @@ class ProductPage(tk.Frame):
 
     def create_top_image_section(self, parent):
         """Erstellt das Produktbild ganz oben - prominent platziert"""
-        # Container für das Bild (WhatsApp-Card-Style)
         image_container = tk.Frame(parent, bg='white', relief='solid', bd=1)
         image_container.pack(fill="x", pady=(0, 20))
         
-        # Bild-Frame mit Schatten-Effekt (WhatsApp-Style)
         image_frame = tk.Frame(image_container, bg='white')
         image_frame.pack(fill="x", padx=15, pady=15)
         
-        # Hauptbild - größer und zentraler
         self.image_label = tk.Label(
             image_frame,
             bg='white',
@@ -130,7 +127,6 @@ class ProductPage(tk.Frame):
         )
         self.image_label.pack(pady=20)
         
-        # Produktname direkt unter dem Bild
         self.name_label = tk.Label(
             image_frame,
             text="Produktname",
@@ -141,20 +137,14 @@ class ProductPage(tk.Frame):
         )
         self.name_label.pack(pady=(0, 15))
 
-    def create_image_section(self, parent):
-        """Alte Image-Sektion - wird nicht mehr verwendet"""
-        pass  # Entfernt, da Bild jetzt oben ist
-
     def create_details_section(self, parent):
         """Erstellt den Detailbereich - angepasst für WhatsApp-Style"""
-        # Hauptcontainer für Details (WhatsApp-Card)
         details_container = tk.Frame(parent, bg='white', relief='solid', bd=1)
         details_container.pack(fill="x", pady=(0, 15))
         
         details_frame = tk.Frame(details_container, bg='white')
         details_frame.pack(fill="both", expand=True, padx=20, pady=20)
         
-        # Bewertung (Amazon-Style - Sterne)
         rating_frame = tk.Frame(details_frame, bg='white')
         rating_frame.pack(fill="x", pady=(0, 15))
         
@@ -177,15 +167,12 @@ class ProductPage(tk.Frame):
         )
         rating_text.pack(side="left", padx=(10, 0))
         
-        # Trennlinie
         separator1 = tk.Frame(details_frame, height=1, bg=COLORS['border_light'])
         separator1.pack(fill="x", pady=15)
         
-        # Preis-Sektion (Amazon-Style)
         price_frame = tk.Frame(details_frame, bg='white')
         price_frame.pack(fill="x", pady=(0, 20))
         
-        # Hauptpreis
         self.price_label = tk.Label(
             price_frame,
             text="1,50 €",
@@ -196,7 +183,6 @@ class ProductPage(tk.Frame):
         )
         self.price_label.pack(anchor="w")
         
-        # Preis-Details
         price_details = tk.Label(
             price_frame,
             text="Inkl. MwSt. • Frisch gebacken",
@@ -207,7 +193,6 @@ class ProductPage(tk.Frame):
         )
         price_details.pack(anchor="w", pady=(5, 0))
         
-        # Verfügbarkeit
         availability_frame = tk.Frame(details_frame, bg='white')
         availability_frame.pack(fill="x", pady=(10, 20))
         
@@ -231,25 +216,19 @@ class ProductPage(tk.Frame):
         )
         delivery_info.pack(anchor="w", pady=(5, 0))
         
-        # Trennlinie
         separator2 = tk.Frame(details_frame, height=1, bg=COLORS['border_light'])
         separator2.pack(fill="x", pady=20)
         
-        # Produktbeschreibung
         self.create_description_section(details_frame)
         
-        # Trennlinie
         separator3 = tk.Frame(details_frame, height=1, bg=COLORS['border_light'])
         separator3.pack(fill="x", pady=20)
         
-        # Kauf-Optionen (Amazon-Style)
         self.create_purchase_section(details_frame)
         
-        # Zusätzliche Produktinformationen für längeren Content
         self.create_additional_info(parent)
 
     def create_description_section(self, parent):
-        """Erstellt die Produktbeschreibung"""
         desc_frame = tk.Frame(parent, bg='white')
         desc_frame.pack(fill="x", pady=(0, 15))
         
@@ -263,7 +242,6 @@ class ProductPage(tk.Frame):
         )
         desc_title.pack(anchor="w", pady=(0, 10))
         
-        # Produktbeschreibung
         self.desc_label = tk.Label(
             desc_frame,
             text="Beschreibung wird geladen...",
@@ -277,15 +255,12 @@ class ProductPage(tk.Frame):
         self.desc_label.pack(anchor="w", fill="x")
 
     def create_purchase_section(self, parent):
-        """Erstellt den Kauf-Bereich (Amazon-Style)"""
         purchase_frame = tk.Frame(parent, bg=COLORS['background_hover'], relief='solid', bd=1)
         purchase_frame.pack(fill="x", pady=(0, 20))
         
-        # Padding-Container
         purchase_content = tk.Frame(purchase_frame, bg=COLORS['background_hover'])
         purchase_content.pack(fill="both", expand=True, padx=20, pady=20)
         
-        # Menge-Auswahl
         quantity_frame = tk.Frame(purchase_content, bg=COLORS['background_hover'])
         quantity_frame.pack(fill="x", pady=(0, 15))
         
@@ -298,7 +273,6 @@ class ProductPage(tk.Frame):
         )
         qty_label.pack(side="left")
         
-        # Menge-Spinner (Amazon-Style)
         self.qty_var = tk.IntVar(value=1)
         qty_spinbox = tk.Spinbox(
             quantity_frame,
@@ -313,7 +287,6 @@ class ProductPage(tk.Frame):
         )
         qty_spinbox.pack(side="left", padx=(10, 0))
         
-        # Gesamtpreis-Anzeige
         self.total_price_label = tk.Label(
             purchase_content,
             text="Gesamtpreis: 1,50 €",
@@ -324,11 +297,9 @@ class ProductPage(tk.Frame):
         )
         self.total_price_label.pack(anchor="w", pady=(0, 20))
         
-        # Kauf-Buttons (Amazon-Style)
         button_frame = tk.Frame(purchase_content, bg=COLORS['background_hover'])
         button_frame.pack(fill="x")
         
-        # Hauptkauf-Button (Helles Gelb für Warenkorb)
         add_to_cart_btn = create_modern_button(
             button_frame,
             "🛒 In den Warenkorb",
@@ -337,7 +308,6 @@ class ProductPage(tk.Frame):
         )
         add_to_cart_btn.pack(fill="x", pady=(0, 10))
         
-        # Direktkauf-Button
         buy_now_btn = create_modern_button(
             button_frame,
             "⚡ Jetzt kaufen",
@@ -346,7 +316,6 @@ class ProductPage(tk.Frame):
         )
         buy_now_btn.pack(fill="x")
         
-        # Zurück-Button
         back_btn = create_modern_button(
             purchase_content,
             "← Zurück zur Übersicht",
@@ -380,7 +349,7 @@ class ProductPage(tk.Frame):
             "👨‍🍳 Handwerklich gebacken jeden Morgen", 
             "🥨 Traditionelle Rezeptur seit 1952",
             "⏰ Haltbarkeit: 1-2 Tage",
-            "🌞 Lagerung: Bei Raumtemperatur",
+            "🌡️ Lagerung: Bei Raumtemperatur",
             "🥖 Ohne Konservierungsstoffe",
             "✅ Vegetarisch geeignet",
             "📦 Einzeln verpackt für Hygiene"
@@ -531,28 +500,48 @@ class ProductPage(tk.Frame):
 
     def update_page(self, product):
         """Aktualisiert die Seite mit Produktdaten"""
+        # akzeptiere sowohl Dicts (neu) als auch Tupel aus DB (falls irgendwo noch Tupel übergeben werden)
+        if product is None:
+            return
+
+        # falls ein DB-Row-Tupel übergeben wurde, wandle um (id, name, preis, beschreibung)
+        if isinstance(product, tuple) or isinstance(product, list):
+            # hole Felder falls vorhanden
+            try:
+                prod_id, name, preis, beschreibung = product[0], product[1], product[2], product[3]
+                product = {
+                    "id": prod_id,
+                    "name": name,
+                    "price": float(preis),
+                    "description": beschreibung if beschreibung is not None else "",
+                    "image": f"assets/{name}.png"
+                }
+            except Exception:
+                # fallback: versuche einfache Indexzugriffe
+                pass
+
         self.product = product
-        
+
         # Breadcrumb aktualisieren
         self.product_breadcrumb.configure(text=product["name"])
-        
+
         # Produktbild laden
         self.load_product_image(product)
-        
+
         # Produktname
         self.name_label.configure(text=product["name"])
-        
+
         # Preis
         price_text = f"{product.get('price', 0):.2f} €"
         self.price_label.configure(text=price_text)
-        
+
         # Beschreibung
         description = product.get('description', f'Leckere {product["name"]} – frisch gebacken!')
         self.desc_label.configure(text=description)
-        
+
         # Gesamtpreis initial berechnen
         self.update_total_price()
-        
+
         # Menge-Änderung überwachen
         self.qty_var.trace('w', lambda *args: self.update_total_price())
 
@@ -561,20 +550,13 @@ class ProductPage(tk.Frame):
         try:
             image_path = product.get("image", f"assets/{product['name']}.png")
             img = Image.open(image_path)
-            
-            # Bild proportional skalieren (größer für die Top-Position)
             img.thumbnail((400, 400), Image.Resampling.LANCZOS)
-            
-            # Tkinter PhotoImage erstellen
             self.product_image = ImageTk.PhotoImage(img)
-            
-            # Bild anzeigen
             self.image_label.configure(
                 image=self.product_image,
                 text="",
                 compound='center'
             )
-            
         except Exception as e:
             print(f"Fehler beim Laden des Produktbilds: {e}")
             self.image_label.configure(
@@ -607,7 +589,11 @@ class ProductPage(tk.Frame):
             print(f"✅ {qty}x {name} zum Warenkorb hinzugefügt")
             
             # Warenkorb-Info aktualisieren
-            self.controller.update_cart_info()
+            if hasattr(self.controller, "update_cart_info"):
+                try:
+                    self.controller.update_cart_info()
+                except Exception:
+                    pass
             
             # Zur Startseite zurück
             self.controller.show_frame("HomePage")

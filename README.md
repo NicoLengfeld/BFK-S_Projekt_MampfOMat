@@ -64,9 +64,6 @@ git clone https://github.com/bxitscoders/BFK-S_Projekt_MampfOMat.git
 cd BFK-S_Projekt_MampfOMat/Frontend
 python main.py
 ```
-Für die DB: 
-XAMPP starten ->  Apache und MySQL starten ->  http://localhost/phpmyadmin/ -> Importieren klicken -> setup.sql Datei wählen - > OK --> Datenbank mampf 
-
 
 Das wars schon.
 
@@ -104,3 +101,16 @@ Mussten wir für die Schule machen:
 ---
 
 Falls Fragen sind oder was nicht läuft, einfach melden. 
+
+
+## Installationen:
+
+Damit django richtig funktioniert wurde ein requiremnets.txt erstellt. In dieser sind die Dependencies hinterlegt.
+
+Die Dependencies werden aus dem root projekt Verzeichniss installiert.
+
+$ .venv\Scripts\Activate
+
+$ cd <root prject>
+
+$ pip install -r requirements.txt
