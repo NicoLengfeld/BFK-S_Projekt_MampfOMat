@@ -432,7 +432,7 @@ class ProductPage(tk.Frame):
         )
         allergy_info.pack(anchor="w", pady=(10, 0))
         
-        # Kundenbewertungen Sektion - separate Card
+    
         reviews_card = tk.Frame(parent, bg='white', relief='solid', bd=1)
         reviews_card.pack(fill="x", pady=(0, 15))
         

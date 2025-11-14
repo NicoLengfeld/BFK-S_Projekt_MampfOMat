@@ -117,3 +117,5 @@ $ .venv\Scripts\Activate
 $ cd <root prject>
 
 $ pip install -r requirements.txt
+
+test test test
