@@ -118,4 +118,8 @@ $ cd <root prject>
 
 $ pip install -r requirements.txt
 
-test test test hwzdgtf
+Um runserver zu starten:
+
+$ cd config
+
+$ python .\manage.py runserver
