@@ -1,10 +1,10 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#--------------------------------------------
+--------------------------------------------
 # TODO: ersetzen für Produktion
 # TODO: Replace sql3 with mariadb
-#--------------------------------------------
+--------------------------------------------
 SECRET_KEY = "change-me-replace-in-production"
 
 DEBUG = True

@@ -30,6 +30,7 @@ class App(tk.Tk):
         self.grid_rowconfigure(1, weight=1)
 
     def center_window(self):
+
         """Zentriert das Fenster auf dem Bildschirm"""
         self.update_idletasks()
         width = self.winfo_width()

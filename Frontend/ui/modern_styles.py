@@ -38,9 +38,9 @@ COLORS = {
     'button_danger': '#dc3545',     # Roter Gefahr-Button
     'button_danger_hover': '#c82333', # Dunkler rot
     'button_gold': '#d4af37',       # Gold-Button für besondere Aktionen
-    'button_gold_hover': '#b8941f',  # Dunkler gold b8941f
-    'button_cart': '#FDF4A3',       # Helles Gelb für Warenkorb f4e04d
-    'button_cart_hover': '#e6d448', # Dunkler helles Gelb 
+    'button_gold_hover': '#b8941f',  # Dunkler gold
+    'button_cart': '#f4e04d',       # Helles Gelb für Warenkorb
+    'button_cart_hover': '#e6d448', # Dunkler helles Gelb
     
     # Rahmen und Schatten
     'border_light': '#dee2e6',      # Helle Rahmen

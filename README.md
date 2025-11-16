@@ -63,10 +63,10 @@ Dann einfach:
 git clone https://github.com/bxitscoders/BFK-S_Projekt_MampfOMat.git
 cd BFK-S_Projekt_MampfOMat/Frontend
 python main.py
-```
-Für die DB: 
-XAMPP starten ->  Apache und MySQL starten ->  http://localhost/phpmyadmin/ -> Importieren klicken -> setup.sql Datei wählen - > OK --> Datenbank mampf 
 
+Für die DB: 
+XAMPP starten ->  Apache und MySQL starten ->  http://localhost/phpmyadmin/ -> Importieren klicken -> setup.sql Datei wählen - > OK --> Datenbank mampf
+```
 
 Das wars schon.
 
@@ -117,3 +117,9 @@ $ .venv\Scripts\Activate
 $ cd <root prject>
 
 $ pip install -r requirements.txt
+
+Um runserver zu starten:
+
+$ cd config
+
+$ python .\manage.py runserver

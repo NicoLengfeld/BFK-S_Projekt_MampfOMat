@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS bestellpositionen (
 
 
 INSERT INTO produkte (name, preis, beschreibung) VALUES
-('Croissant', 1.50, 'Zartblättriges Buttercroissant, goldbraun gebacken und herrlich buttrig im Geschmack.'),
+('Croissant', 2.20, 'Zartblättriges Buttercroissant, goldbraun gebacken und herrlich buttrig im Geschmack.'),
 ('Brezel', 1.50, 'Frisch gebackene, knusprige Brezel.'),
 ('Muffin', 2.50, 'Saftiger Muffin mit zarter Krume, frisch gebacken und leicht süß im Geschmack.'),
 ('Berliner', 2.20, 'Klassischer Berliner mit feiner Marmeladenfüllung und Puderzucker bestäubt.'),

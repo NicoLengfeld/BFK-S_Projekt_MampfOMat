@@ -1,72 +1,77 @@
 import mysql.connector
+from decimal import Decimal
 
+# Funktion zum Aufbau der Verbindung
+def get_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="Mampf"
+    )
 
-conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="",
-    database="Mampf"
-)
-
-
-cursor = conn.cursor()
-print("Verbindung zur Datenbank erfolgreich!")
-
-
+# Produkte abrufen
 def get_produkte():
-    cursor.execute("SELECT * FROM produkte")
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, name, preis, beschreibung FROM produkte")
     produkte = cursor.fetchall()
-    print("\n--- Produkte ---")
-    for p in produkte:
-        print(f"ID: {p[0]}, Name: {p[1]}, Preis: {p[2]}€, Beschreibung: {p[3]}")
+    cursor.close()
+    conn.close()
     return produkte
 
+# Preis eines Produkts anhand der ID holen
+def get_preis_von_produkt(produkt_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT preis FROM produkte WHERE id = %s", (produkt_id,))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if result:
+        return Decimal(result[0])
+    else:
+        return Decimal(0)
 
-def create_bestellung(kunde_name, warenkorb):
-    """
-    warenkorb = [
-        {"produkt_id": 1, "menge": 2},
-        {"produkt_id": 3, "menge": 1},
-    ]
-    """
-    gesamtpreis = 0
+# Bestellung speichern
+def add_bestellung(produkte_mit_menge, gesamtpreis):
+    conn = get_connection()
+    cursor = conn.cursor()
 
-   
-    for item in warenkorb:
-        cursor.execute("SELECT preis FROM produkte WHERE id = %s", (item["produkt_id"],))
-        preis = cursor.fetchone()[0]
-        gesamtpreis += preis * item["menge"]
+    # Bestellung speichern
+    cursor.execute("INSERT INTO bestellungen (gesamtpreis) VALUES (%s)", (gesamtpreis,))
+    bestell_id = cursor.lastrowid
 
-    
-    cursor.execute(
-        "INSERT INTO bestellungen (kunde_name, gesamtpreis) VALUES (%s, %s)",
-        (kunde_name, gesamtpreis)
-    )
-    conn.commit()
-    bestellung_id = cursor.lastrowid
-
-
-    for item in warenkorb:
-        cursor.execute("SELECT preis FROM produkte WHERE id = %s", (item["produkt_id"],))
-        einzelpreis = cursor.fetchone()[0]
+    # Einzelne Produkte speichern
+    for produkt_id, menge in produkte_mit_menge.items():
+        preis = get_preis_von_produkt(produkt_id)
         cursor.execute("""
             INSERT INTO bestellpositionen (bestellung_id, produkt_id, menge, einzelpreis)
             VALUES (%s, %s, %s, %s)
-        """, (bestellung_id, item["produkt_id"], item["menge"], einzelpreis))
+        """, (bestell_id, produkt_id, menge, preis))
+
     conn.commit()
+    cursor.close()
+    conn.close()
 
-    print(f"\n✅ Bestellung {bestellung_id} erfolgreich gespeichert! Gesamtpreis: {gesamtpreis:.2f}€")
+# Alle Bestellungen abrufen
+def get_bestellungen():
+    conn = get_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("""
+        SELECT b.id AS bestell_id, p.name, bp.menge, b.gesamtpreis
+        FROM bestellungen b
+        JOIN bestellpositionen bp ON b.id = bp.bestellung_id
+        JOIN produkte p ON bp.produkt_id = p.id
+    """)
+    daten = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return daten
 
-
+# Testausgabe (nur beim direkten Start)
 if __name__ == "__main__":
+    print("Verbindung zur Datenbank erfolgreich!")
     produkte = get_produkte()
-
-    # Beispielbestellung
-    warenkorb = [
-        {"produkt_id": 1, "menge": 2},
-        {"produkt_id": 3, "menge": 1}
-    ]
-    create_bestellung("Test", warenkorb)
-
-cursor.close()
-conn.close()
+    for p in produkte:
+        print(f"ID: {p[0]}, Name: {p[1]}, Preis: {p[2]}€, Beschreibung: {p[3]}")
